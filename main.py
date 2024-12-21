@@ -4,6 +4,8 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from openai import OpenAI
+from dotenv import load_dotenv
+from pixels import fetch_images_and_videos, save_results_to_file
 
 # Download required NLTK resources
 nltk.download('punkt')
@@ -46,7 +48,7 @@ def get_best_keywords_via_chatgpt(openai_client,keywords, max_keywords=15):
 
         # Call the ChatGPT API
         response = openai_client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "You are an assistant for refining keyword selection."},
                 {"role": "user", "content": prompt},
@@ -63,13 +65,19 @@ def get_best_keywords_via_chatgpt(openai_client,keywords, max_keywords=15):
 
 
 # Example usage
+load_dotenv()
 script_file = "script.txt"  # Replace with your script file path
 extracted_keywords = extract_keywords(script_file)
 print("Extracted Keywords:", extracted_keywords)
-
+OUTPUT_PATH = "/home/ayan/fn/script/vid_automation/output/stocks/pexels_results.json"
 # Refine the extracted keywords using ChatGPT
-api_key = os.getenv("OPENAI_API_KEY")
-openai_client = initialize_openai(api_key)
+PEXELS_API_KEY = os.getenv("PIXELS_API_KEYS")
+openai_api_key = os.getenv("OPENAI_API_KEY")
+openai_client = initialize_openai(openai_api_key)
 best_keywords = get_best_keywords_via_chatgpt(openai_client,extracted_keywords, max_keywords=15)
 print("Top Keywords for Stock Clips:", best_keywords)
+pexels_results = fetch_images_and_videos(PEXELS_API_KEY,best_keywords, per_page=1)
+print(f"Fetched {len(pexels_results['images'])} images and {len(pexels_results['videos'])} videos.")
+save_results_to_file(pexels_results,OUTPUT_PATH)
+
 

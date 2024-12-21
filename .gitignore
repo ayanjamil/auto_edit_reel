@@ -1,0 +1,17 @@
+# Ignore .env files
+.env
+
+# Ignore node_modules folder (for Node.js projects)
+node_modules/
+
+# Ignore log files
+*.log
+
+# Ignore IDE-specific files (e.g., VSCode settings)
+.vscode/
+
+venv/
+# PyCharm specific files
+.idea/
+credentials.json
+output/
