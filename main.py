@@ -112,7 +112,7 @@ def main():
     openai_client = initialize_openai(openai_api_key)
 
     # Load script content
-    script_file = "script.txt"  # Replace with the path to your script file
+    script_file = "/home/ayan/fn/script/vid_automation/input/script/timestamps.txt"  # Replace with the path to your script file
     with open(script_file, "r") as f:
         script_content = f.read()
 

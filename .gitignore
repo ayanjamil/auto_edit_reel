@@ -14,4 +14,6 @@ venv/
 # PyCharm specific files
 .idea/
 credentials.json
+output
 output/
+temp_dir/
