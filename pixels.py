@@ -17,7 +17,7 @@ def fetch_images_and_videos(key,keywords, per_page=5):
         print("Error: Pexels API key not found in environment variables.")
         return
 
-    results = {"images": [], "videos": []}
+    results = {"images": []}
 
     for keyword in keywords:
         try:
@@ -32,14 +32,14 @@ def fetch_images_and_videos(key,keywords, per_page=5):
             results["images"].extend(photos)
 
             # Search for videos
-            video_response = requests.get(
-                f"{base_url}/videos/search",
-                headers=headers,
-                params={"query": keyword, "per_page": per_page}
-            )
-            video_response.raise_for_status()
-            videos = video_response.json().get("videos", [])
-            results["videos"].extend(videos)
+            # video_response = requests.get(
+            #     f"{base_url}/videos/search",
+            #     headers=headers,
+            #     params={"query": keyword, "per_page": per_page}
+            # )
+            # video_response.raise_for_status()
+            # videos = video_response.json().get("videos", [])
+            # results["videos"].extend(videos)
 
         except requests.exceptions.RequestException as e:
             print(f"Error fetching results for keyword '{keyword}': {e}")
